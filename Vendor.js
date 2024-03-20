@@ -1,4 +1,3 @@
-// Define MongoDB schema for vendors
 const VendorSchema = new mongoose.Schema({
     vendorName: String,
     email: String,
@@ -9,7 +8,7 @@ const VendorSchema = new mongoose.Schema({
 
 const VendorModel = mongoose.model('Vendor', VendorSchema);
 
-// Route for vendor registration
+
 app.post('/api/vendors/register', async (req, res) => {
     try {
         const { vendorName, email, password, address, phoneNumber } = req.body;
@@ -23,7 +22,7 @@ app.post('/api/vendors/register', async (req, res) => {
     }
 });
 
-// Route for vendor login
+
 app.post('/api/vendors/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -43,7 +42,6 @@ app.post('/api/vendors/login', async (req, res) => {
     }
 });
 
-// Protected route for vendor profile
 app.get('/api/vendors/profile', verifyToken, async (req, res) => {
     try {
         const vendor = await VendorModel.findById(req.userId);
