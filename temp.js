@@ -1,22 +1,21 @@
-// Import required modules
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Initialize Express app
+
 const app = express();
 
-// Middleware
+
 app.use(bodyParser.json());
 
-// Database connection
+
 mongoose.connect('mongodb://localhost:27017/local_communication_network', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to database'))
     .catch(err => console.error('Database connection error:', err));
 
-// Define MongoDB schemas
+
 const UserSchema = new mongoose.Schema({
     username: String,
     email: String,
@@ -25,7 +24,6 @@ const UserSchema = new mongoose.Schema({
 
 const UserModel = mongoose.model('User', UserSchema);
 
-// Routes
 app.post('/api/register', async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -59,7 +57,6 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// Middleware to verify JWT token
 function verifyToken(req, res, next) {
     const token = req.headers['authorization'];
     if (!token) {
@@ -74,11 +71,9 @@ function verifyToken(req, res, next) {
     });
 }
 
-// Example protected route
 app.get('/api/profile', verifyToken, (req, res) => {
     res.json({ message: 'Protected route accessed successfully' });
 });
 
-// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
