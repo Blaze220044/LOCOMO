@@ -1,4 +1,3 @@
-// Define MongoDB schema for products
 const ProductSchema = new mongoose.Schema({
     productName: String,
     description: String,
@@ -8,7 +7,7 @@ const ProductSchema = new mongoose.Schema({
 
 const ProductModel = mongoose.model('Product', ProductSchema);
 
-// Route for adding a new product
+
 app.post('/api/products', verifyToken, async (req, res) => {
     try {
         const { productName, description, price } = req.body;
@@ -21,7 +20,7 @@ app.post('/api/products', verifyToken, async (req, res) => {
     }
 });
 
-// Route for getting all products
+
 app.get('/api/products', async (req, res) => {
     try {
         const products = await ProductModel.find().populate('vendor', 'vendorName');
